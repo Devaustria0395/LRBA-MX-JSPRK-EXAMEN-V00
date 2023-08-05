@@ -1,0 +1,6 @@
+com\bbva\lrba\mx\jsprk\examen\v00\model\JoinedRowData.class
+com\bbva\lrba\mx\jsprk\examen\v00\model\StreamingRowData.class
+com\bbva\lrba\mx\jsprk\examen\v00\Transformer.class
+com\bbva\lrba\mx\jsprk\examen\v00\model\CharacteristicsRowData.class
+com\bbva\lrba\mx\jsprk\examen\v00\model\MoviesRowData.class
+com\bbva\lrba\mx\jsprk\examen\v00\JobExamenBuilder.class

@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.bbva.lrba.mx.jsprk.examen.v00.JobExamenBuilderTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.228 s <<< FAILURE! - in com.bbva.lrba.mx.jsprk.examen.v00.JobExamenBuilderTest
+registerSources_na_SourceList  Time elapsed: 0.041 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <sourceAlias2> but was: <sourceAlias1>
+	at com.bbva.lrba.mx.jsprk.examen.v00.JobExamenBuilderTest.registerSources_na_SourceList(JobExamenBuilderTest.java:37)
+

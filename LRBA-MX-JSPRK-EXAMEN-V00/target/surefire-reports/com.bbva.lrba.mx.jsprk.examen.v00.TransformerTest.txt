@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.bbva.lrba.mx.jsprk.examen.v00.TransformerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 19.687 s <<< FAILURE! - in com.bbva.lrba.mx.jsprk.examen.v00.TransformerTest
+transform_Output  Time elapsed: 12.058 s  <<< ERROR!
+org.apache.spark.sql.AnalysisException: Column 'title' does not exist. Did you mean one of the following? [date]
+	at com.bbva.lrba.mx.jsprk.examen.v00.TransformerTest.transform_Output(TransformerTest.java:99)
+
