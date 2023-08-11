@@ -18,27 +18,58 @@ public class Transformer implements Transform {
     public Map<String, Dataset<Row>> transform(Map<String, Dataset<Row>> datasetsFromRead) {
         Map<String, Dataset<Row>> datasetsToWrite = new HashMap<>();
 
-        Dataset<CharacteristicsRowData> characteristicDS = datasetsFromRead.get("sourceAlias1")
-                .as(Encoders.bean(CharacteristicsRowData.class));
+        Dataset<Row> characteristicDS = datasetsFromRead.get("sourceAlias1");
         Dataset<MoviesRowData> moviesDS = datasetsFromRead.get("sourceAlias2")
                 .as(Encoders.bean(MoviesRowData.class));
         Dataset<StreamingRowData> streamingDS = datasetsFromRead.get("sourceAlias3")
                 .as(Encoders.bean(StreamingRowData.class));
 
-        Dataset<Row> prejoinedDS = moviesDS.join(streamingDS,"code");
-        prejoinedDS.show();
+        Dataset<Row> moviesWstreamingDS = moviesDS.select(moviesDS.col("*"),
+                functions.when(moviesDS.col("code").equalTo("NFLX"), "Netflix")
+                        .when(moviesDS.col("code").equalTo("DSNY+"), "Disney+")
+                        .when(moviesDS.col("code").equalTo("AMZN"), "Amazon Prime")
+                        .alias("service"));
 
-        Dataset<Row> joinedDS = characteristicDS.join(prejoinedDS,"title");
 
         System.out.println("Ej1");
-        joinedDS = joinedDS.select(joinedDS.col("service")), functions.lit(functions.current_timestamp()).alias("date");
 
-        joinedDS.show();
+        Dataset<Row> fullDS = moviesWstreamingDS.unionByName(characteristicDS, true);
+        fullDS = fullDS.select(fullDS.col("*"),
+                functions.lit(functions.current_timestamp()).alias("date"));
 
-        datasetsToWrite.put("characteristicDS", characteristicDS.toDF());
-        datasetsToWrite.put("moviesDS", moviesDS.toDF());
-        datasetsToWrite.put("streamingDS", streamingDS.toDF());
-        datasetsToWrite.put("joinedDS", joinedDS.toDF());
+        fullDS.show();
+
+        System.out.println("Ej2");
+
+        Dataset<Row> MoviesPerService = fullDS.filter(functions.col("type").equalTo("Movie"))
+                .groupBy("service").count().alias("Number of Movies");
+
+        MoviesPerService.show();
+
+        System.out.println("Ej3");
+
+        Dataset<Row> directorsWMMPerStreaming = fullDS
+                .groupBy("director").count().alias("Number of Movies");
+
+        directorsWMMPerStreaming.sort("Number of Movies.director");
+
+        directorsWMMPerStreaming.show();
+
+        System.out.println("Ej4");
+
+        Dataset<Row> LongestProductsPerStreaming = fullDS
+                .filter(functions.col("duration").equalTo("10 Seasons")
+                        .and(functions.col("duration").equalTo("90 min")));
+
+        LongestProductsPerStreaming.show();
+
+        System.out.println("Ej5");
+
+        datasetsToWrite.put("targetAlias1", fullDS);
+        datasetsToWrite.put("targetAlias2", MoviesPerService);
+        datasetsToWrite.put("targetAlias3", directorsWMMPerStreaming);
+        datasetsToWrite.put("targetAlias4", LongestProductsPerStreaming);
+        //datasetsToWrite.put("targetAlias5", ejercicio5);
 
         return datasetsToWrite;
     }
