@@ -63,12 +63,32 @@ class JobExamenBuilderTest {
         final TargetsList targetsList = this.jobExamenBuilder.registerTargets();
         assertNotNull(targetsList);
         assertNotNull(targetsList.getTargets());
-        assertEquals(4, targetsList.getTargets().size());
+        assertEquals(5, targetsList.getTargets().size());
 
-        final Target target = targetsList.getTargets().get(3);
-        assertNotNull(target);
-        assertEquals("joinedDS", target.getAlias());
-        assertEquals("output/joinedDS.csv", target.getPhysicalName());
+        final Target target1 = targetsList.getTargets().get(0);
+        assertNotNull(target1);
+        assertEquals("targetAlias1", target1.getAlias());
+        assertEquals("ej1.csv", target1.getPhysicalName());
+
+        final Target target2 = targetsList.getTargets().get(1);
+        assertNotNull(target2);
+        assertEquals("targetAlias2", target2.getAlias());
+        assertEquals("ej2.csv", target2.getPhysicalName());
+
+        final Target target3 = targetsList.getTargets().get(2);
+        assertNotNull(target3);
+        assertEquals("targetAlias3", target3.getAlias());
+        assertEquals("ej3.csv", target3.getPhysicalName());
+
+        final Target target4 = targetsList.getTargets().get(3);
+        assertNotNull(target4);
+        assertEquals("targetAlias4", target4.getAlias());
+        assertEquals("ej4.csv", target4.getPhysicalName());
+
+        final Target target5 = targetsList.getTargets().get(4);
+        assertNotNull(target5);
+        assertEquals("targetAlias5", target5.getAlias());
+        assertEquals("ej5.csv", target5.getPhysicalName());
     }
 
 }
